@@ -22,23 +22,23 @@ part.
             │
             │  hours later
             ▼
-  ┌─────────────────────────────────────────────┐
+  ┌────────────────────────────────────────────────┐
   │  Uptime monitor on unrelated app: 403 errors   │
   │  IPv6 clients silently served the filtering    │
-  │  host's 403 page instead of the real app        │
-  └─────────────────────────────────────────────┘
+  │  host's 403 page instead of the real app       │
+  └────────────────────────────────────────────────┘
             │
             ▼
   Attempt 1: scope filtering host to loopback only (v4 + v6)
             │
             ▼
-  ┌─────────────────────────────────────────────┐
-  │  Webserver fails to bind ANYTHING               │
-  │  No error in any obvious log                    │
-  │  Real cause hidden until a debug flag is          │
-  │  enabled — buried error: loopback already         │
-  │  in use too (0.0.0.0 includes 127.0.0.1)            │
-  └─────────────────────────────────────────────┘
+  ┌────────────────────────────────────────────────┐
+  │  Webserver fails to bind ANYTHING              │
+  │  No error in any obvious log                   │
+  │  Real cause hidden until a debug flag is       │
+  │  enabled — buried error: loopback already      │
+  │  in use too (0.0.0.0 includes 127.0.0.1)       │
+  └────────────────────────────────────────────────┘
             │
             ▼
   Root cause confirmed: 0.0.0.0 is a wildcard —
@@ -171,9 +171,9 @@ silently broken by the new setup.
                     │
                     ▼
   ┌───────────────────────────────────────────────┐
-  │  Step 1 — test the filter directly,              │
-  │  bypassing every browser entirely                  │
-  │  (query the filter's own DNS stub directly)         │
+  │  Step 1 — test the filter directly,           │
+  │  bypassing every browser entirely             │
+  │  (query the filter's own DNS stub directly)   │
   └───────────────────┬───────────────────────────┘
                        ▼
               Filter responds correctly
@@ -181,8 +181,8 @@ silently broken by the new setup.
                        │
                        ▼
   ┌───────────────────────────────────────────────┐
-  │  Step 2 — same device, same network,               │
-  │  same moment, test multiple browsers                │
+  │  Step 2 — same device, same network,          │
+  │  same moment, test multiple browsers          │
   └───────────────────┬───────────────────────────┘
                        ▼
         2 of 3 browsers block it correctly
@@ -195,8 +195,8 @@ silently broken by the new setup.
                        │
                        ▼
   ┌───────────────────────────────────────────────┐
-  │  Step 3 — check that browser's own settings        │
-  │  against documentation                              │
+  │  Step 3 — check that browser's own settings   │
+  │  against documentation                        │
   └───────────────────┬───────────────────────────┘
                        ▼
         Found: a privacy feature in that browser
