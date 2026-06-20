@@ -20,25 +20,25 @@ deliberately — rather than piping it directly into a shell.
   Downloaded script
          │
          ▼
-  ┌─────────────────────────────────────────────────┐
-  │  1. Unexplained external fetches                 │
+  ┌───────────────────────────────────────────────────┐
+  │  1. Unexplained external fetches                  │
   │     grep for curl/wget to unknown domains         │
-  └─────────────────────┬─────────────────────────────┘
+  └──────────────────────┬────────────────────────────┘
                          ▼ clean
-  ┌─────────────────────────────────────────────────┐
+  ┌───────────────────────────────────────────────────┐
   │  2. Obfuscation                                   │
   │     grep for base64 blobs, eval of external data  │
-  └─────────────────────┬─────────────────────────────┘
+  └──────────────────────┬────────────────────────────┘
                          ▼ clean
-  ┌─────────────────────────────────────────────────┐
+  ┌───────────────────────────────────────────────────┐
   │  3. Excessive permissions                         │
   │     grep for chmod 777, setuid/setgid, sudoers    │
-  └─────────────────────┬─────────────────────────────┘
+  └──────────────────────┬────────────────────────────┘
                          ▼ clean
-  ┌─────────────────────────────────────────────────┐
+  ┌───────────────────────────────────────────────────┐
   │  4. Rogue persistence                             │
   │     grep for crontab, systemctl enable, rc edits  │
-  └─────────────────────┬─────────────────────────────┘
+  └──────────────────────┬────────────────────────────┘
                          ▼ empty result —
                            ambiguous, not automatically "safe"
                          │
@@ -137,33 +137,33 @@ grant an attacker? Working through it deliberately rather than assuming
                               │
                               ▼
               ┌───────────────────────────────┐
-              │   Direct, automatic result:     │
-              │   DNS-level effects only         │
-              │   (wrong IPs returned for         │
-              │    real domains)                  │
+              │   Direct, automatic result:   │
+              │   DNS-level effects only      │
+              │   (wrong IPs returned for     │
+              │    real domains)              │
               └───────────────────────────────┘
-                              │
+                                 │
           requires an ADDITIONAL, independent failure
-          to reach anything beyond DNS  ──┐
-                              │            │
-            ┌─────────────────┼─────────────────┐
-            ▼                 ▼                 ▼
-    ┌───────────────┐ ┌───────────────┐ ┌────────────────┐
-    │  Banking creds  │ │  Other network   │ │  Other LAN       │
-    │  ──────────────  │ │  storage          │ │  systems          │
-    │  blocked by TLS  │ │  ────────────     │ │  ────────────     │
-    │  cert validation │ │  blocked by        │ │  blocked by        │
-    │  (separate layer)│ │  separate auth     │ │  separate auth     │
-    └───────────────┘ └───────────────┘ └────────────────┘
+          to reach anything beyond DNS ──────┐
+                                 │           │
+            ┌────────────────────┼─────────────────────┐
+            ▼                    ▼                     ▼
+    ┌──────────────────┐ ┌──────────────────┐ ┌────────────────┐
+    │  Banking creds   │ │  Other network   │ │  Other LAN     │
+    │  ──────────────  │ │  storage         │ │  systems       │
+    │  blocked by TLS  │ │  ────────────    │ │  ────────────  │
+    │  cert validation │ │  blocked by      │ │  blocked by    │
+    │  (separate layer)│ │  separate auth   │ │  separate auth │
+    └──────────────────┘ └──────────────────┘ └────────────────┘
             NOT reached automatically — each needs its own,
                     independent compromise to chain
 
-    ┌─────────────────────────────────────────────────────┐
+    ┌─────────────────────────────────────────────────────────┐
     │  One exception — fully reachable, no chaining needed:   │
-    │  host recruited into a botnet → ISP flags/throttles      │
-    │  the connection. Accepted as residual risk, same as       │
-    │  for any internet-connected device.                        │
-    └─────────────────────────────────────────────────────┘
+    │  host recruited into a botnet → ISP flags/throttles     │
+    │  the connection. Accepted as residual risk, same as     │
+    │  for any internet-connected device.                     │
+    └─────────────────────────────────────────────────────────┘
 ```
 
 - **DNS-level effects only**, by default. The compromise doesn't, on its
