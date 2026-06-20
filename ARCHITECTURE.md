@@ -37,7 +37,7 @@ never going to filter anything; that was never its job.
        │  1. DNS query
        │  "ads.example.com"
        ▼
-  ┌─────────────┐
+  ┌──────────────┐
   │  Filtering   │
   │    host      │
   └──────┬───────┘
@@ -47,7 +47,7 @@ never going to filter anything; that was never its job.
          │                          (dead end — no real lookup happens)
          │ no
          ▼
-  ┌──────────────────┐
+  ┌───────────────────┐
   │ Forward query to  │ ───────▶  Real DNS lookup happens here
   │ upstream resolver │ ◀───────  Answer passed straight back, unchanged
   └────────┬──────────┘
@@ -104,17 +104,17 @@ intervention, no one on the network even needs to notice.
            │                                   │
            │ query                             │ query
            ▼                                   ▼
-   ┌───────────────┐                   ┌───────────────┐
-   │ Filtering host │  ◀── answers      │ Filtering host │  ✗ times out
-   │  (DNS1, alive) │      normally     │  (DNS1, dead)  │  (within seconds)
-   └───────────────┘                   └───────┬────────┘
+   ┌────────────────┐                  ┌─────────────────┐
+   │ Filtering host │  ◀── answers     │ Filtering host  │  ✗ times out
+   │  (DNS1, alive) │      normally    │  (DNS1, dead)   │  (within seconds)
+   └────────────────┘                  └────────┬────────┘
                                                 │  client OS automatically
                                                 │  retries on DNS2
                                                 ▼
-                                        ┌────────────────┐
+                                        ┌─────────────────┐
                                         │ Public resolver │  ◀── answers,
-                                        │   (DNS2)        │      unfiltered
-                                        └────────────────┘
+                                        │     (DNS2)      │      unfiltered
+                                        └─────────────────┘
 
   Result: ad/tracker filtering         Result: filtering paused,
           active                               internet still works
