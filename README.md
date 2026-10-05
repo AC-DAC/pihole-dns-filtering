@@ -1,7 +1,7 @@
 # Home Lab DNS Filtering — Pi-hole Architecture & Investigation Log
 
 **Status:** Complete — operational, verified end-to-end
-**Stack:** Raspberry Pi 4B, Debian, Pi-hole, Nginx, systemd, Let's Encrypt (DNS-01)
+**Stack:** Raspberry Pi 4B, Debian, Pi-hole, Nginx, systemd, Let's Encrypt (DNS-01), Ansible, Grafana alerting
 
 This repo documents the design, build, and debugging process behind a network-wide
 DNS filtering layer for a home lab. There's no application code here — the
@@ -67,6 +67,21 @@ it.
 3. **[INVESTIGATIONS.md](./INVESTIGATIONS.md)** — two debugging case
    studies: a real incident caused by a port conflict, and a false alarm
    that looked like a filtering failure but wasn't
+
+## Keeping it updated
+
+Pi-hole is DNS for the whole network, so updates are deliberate, never unattended.
+`pihole -up` always installs the latest release and can't be version-pinned, so
+detection and application are split:
+
+- **Detection:** a daily systemd timer compares installed and latest versions and
+  logs one line to the journal. Grafana Alloy ships it to Loki, and a Grafana alert
+  rule — provisioned from git, not clicked together in the UI — emails when an
+  update is pending.
+- **Application:** an Ansible playbook takes a Teleporter backup (exactly one kept),
+  runs `pihole -up`, then checks FTL is running and DNS resolves. On failure it
+  restores the settings and stops for a human; clients fall back to the secondary
+  resolver in the meantime.
 
 ## Scope note
 
